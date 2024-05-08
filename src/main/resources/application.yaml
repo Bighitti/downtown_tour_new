@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: DownTown tour
+server:
+  port: 8080
