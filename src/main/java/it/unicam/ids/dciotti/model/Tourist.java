@@ -13,6 +13,10 @@ public class Tourist {
         this.lastCoords = lastCoords;
     }
 
+    public void report(Content content) {
+        new Report(this, content);
+    }
+
     public UUID getCookie() {
         return cookie;
     }
