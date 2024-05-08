@@ -1,4 +1,4 @@
-package it.unicam.ids.dciotti.model;
+package it.unicam.ids.dciotti.downtowntour.model;
 
 public class Admin extends User {
 }
