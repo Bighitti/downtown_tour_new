@@ -66,4 +66,17 @@ public class User {
     public void setFiscalCode(String fiscalCode) {
         this.fiscalCode = fiscalCode;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birthday=" + birthday +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", fiscalCode='" + fiscalCode + '\'' +
+                '}';
+    }
 }

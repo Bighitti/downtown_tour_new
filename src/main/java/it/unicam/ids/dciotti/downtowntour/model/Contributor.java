@@ -28,4 +28,12 @@ public class Contributor extends User {
     public List<Content> getContents() {
         return contents;
     }
+
+    @Override
+    public String toString() {
+        return "Contributor{" +
+                "authorizedBy=" + authorizedBy +
+                ", contents=" + contents +
+                "} " + super.toString();
+    }
 }
