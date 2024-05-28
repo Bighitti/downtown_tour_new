@@ -1,6 +1,7 @@
 package it.unicam.ids.dciotti.downtowntour.controller.impl;
 
 import it.unicam.ids.dciotti.downtowntour.controller.ContributorController;
+import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
 import it.unicam.ids.dciotti.downtowntour.service.ContributorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,8 @@ public class ContributorControllerImpl implements ContributorController {
     }
 
     @Override
-    public ResponseEntity<Void> createContributor() {
+    public ResponseEntity<Void> createContributor(ContributorDTO contributorDTO) {
+        contributorService.createContributor(contributorDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
