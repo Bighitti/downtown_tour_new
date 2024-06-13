@@ -10,6 +10,7 @@ public class ContributorDTO {
     private String phone;
     private String address;
     private String fiscalCode;
+    private String authorizedBy;
 
     public String getFirstname() {
         return firstname;
@@ -65,5 +66,13 @@ public class ContributorDTO {
 
     public void setFiscalCode(String fiscalCode) {
         this.fiscalCode = fiscalCode;
+    }
+
+    public String getAuthorizedBy() {
+        return authorizedBy;
+    }
+
+    public void setAuthorizedBy(String authorizedBy) {
+        this.authorizedBy = authorizedBy;
     }
 }

@@ -1,6 +1,7 @@
 package it.unicam.ids.dciotti.downtowntour.controller.impl;
 
 import it.unicam.ids.dciotti.downtowntour.controller.ContentController;
+import it.unicam.ids.dciotti.downtowntour.dto.ContentDTO;
 import it.unicam.ids.dciotti.downtowntour.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,8 @@ public class ContentControllerImpl implements ContentController {
     }
 
     @Override
-    public ResponseEntity<Void> createContent() {
-        System.out.println("Create Content Hit");
+    public ResponseEntity<Void> createContent(ContentDTO contentDTO) {
+        contentService.createContent(contentDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

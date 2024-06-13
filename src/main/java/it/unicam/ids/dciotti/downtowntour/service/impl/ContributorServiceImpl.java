@@ -18,7 +18,7 @@ public class ContributorServiceImpl implements ContributorService {
 
     @Override
     public void createContributor(ContributorDTO contributorDTO) {
-        Contributor contributor = contributorMapper.model(contributorDTO);
+        Contributor contributor = contributorMapper.modelFromDto(contributorDTO);
         System.out.println(contributor);
     }
 }

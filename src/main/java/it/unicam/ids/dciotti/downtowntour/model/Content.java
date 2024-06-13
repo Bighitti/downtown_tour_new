@@ -6,21 +6,22 @@ import java.util.List;
 
 public class Content {
     private String text;
-    private final Date publication = new Date();
+    private Date publication = new Date();
     private final Contributor contributor;
     private Curator authorized;
     private final Challenge challenge;
     private final List<Report> reportToBeSolved = new ArrayList<>();
 
-    public Content(Contributor contributor) {
+    Content(Contributor contributor) {
         this.contributor = contributor;
         contributor.getContents().add(this);
         this.authorized = contributor.getAuthorizedBy();
         this.challenge = null;
     }
 
-    public Content(Contributor contributor, Challenge challenge) {
+    Content(Contributor contributor, Challenge challenge) {
         this.contributor = contributor;
+        contributor.getContents().add(this);
         this.authorized = contributor.getAuthorizedBy();
         this.challenge = challenge;
         if (challenge != null) {
@@ -38,6 +39,10 @@ public class Content {
 
     public Date getPublication() {
         return publication;
+    }
+
+    public void setPublication(Date publication) {
+        this.publication = publication;
     }
 
     public Contributor getContributor() {
