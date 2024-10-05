@@ -19,10 +19,10 @@ public class ContentEntity {
     @Column(name = "publication", nullable = false)
     private Timestamp publication;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contributor", nullable = false)
+    @JoinColumn(name = "contributor_id", nullable = false)
     private ContributorEntity contributor;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authorized_by", nullable = true)
+    @JoinColumn(name = "authorized_id", nullable = true)
     private ContributorEntity authorizedBy;
 
     public Integer getId() {

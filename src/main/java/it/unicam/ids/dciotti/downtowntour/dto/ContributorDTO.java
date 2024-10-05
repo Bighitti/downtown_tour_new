@@ -3,6 +3,7 @@ package it.unicam.ids.dciotti.downtowntour.dto;
 import java.util.Date;
 
 public class ContributorDTO {
+    private Integer id;
     private String firstname;
     private String lastname;
     private Date birthday;
@@ -11,6 +12,14 @@ public class ContributorDTO {
     private String address;
     private String fiscalCode;
     private CuratorDTO authorizedBy;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getFirstname() {
         return firstname;

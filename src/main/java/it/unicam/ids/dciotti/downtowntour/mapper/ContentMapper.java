@@ -11,6 +11,7 @@ import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Service
@@ -31,10 +32,13 @@ public class ContentMapper implements DefaultMapper<ContentDTO, Content, Content
 
     public ContentDTO dto(ContentEntity entity) {
         ContentDTO dto = new ContentDTO();
+        dto.setId(entity.getId());
         dto.setText(entity.getText());
         dto.setPublication(new Date(entity.getPublication().getTime()));
-        dto.setContributor(contributorMapper.dto(entity.getContributor()));
-        dto.setAuthorizedBy((CuratorDTO) contributorMapper.dto(entity.getAuthorizedBy()));
+        dto.setContributorId(entity.getContributor().getId());
+        try {
+            dto.setAuthorizedById(entity.getAuthorizedBy().getId());
+        } catch (NullPointerException ignore) {}
         return dto;
     }
 
@@ -56,5 +60,13 @@ public class ContentMapper implements DefaultMapper<ContentDTO, Content, Content
     @Override
     public ContentEntity entity(Content content) {
         throw (RuntimeException) new RuntimeException().initCause(new ExecutionControl.NotImplementedException(""));
+    }
+
+    public ContentEntity entity(ContentDTO contentDTO) {
+        ContentEntity contentEntity = new ContentEntity();
+        contentEntity.setId(contentDTO.getId());
+        contentEntity.setText(contentDTO.getText());
+        contentEntity.setPublication(new Timestamp(contentDTO.getPublication().getTime()));
+        return contentEntity;
     }
 }

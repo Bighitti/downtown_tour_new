@@ -3,10 +3,19 @@ package it.unicam.ids.dciotti.downtowntour.dto;
 import java.util.Date;
 
 public class ContentDTO {
+    private Integer id;
     private String text;
     private Date publication = new Date();
-    private ContributorDTO contributor;
-    private CuratorDTO authorizedBy;
+    private Integer contributorId;
+    private Integer authorizedById;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;
@@ -24,19 +33,19 @@ public class ContentDTO {
         this.publication = publication;
     }
 
-    public ContributorDTO getContributor() {
-        return contributor;
+    public Integer getContributorId() {
+        return contributorId;
     }
 
-    public void setContributor(ContributorDTO contributor) {
-        this.contributor = contributor;
+    public void setContributorId(Integer contributorId) {
+        this.contributorId = contributorId;
     }
 
-    public CuratorDTO getAuthorizedByCuratorFiscalCode() {
-        return authorizedBy;
+    public Integer getAuthorizedById() {
+        return authorizedById;
     }
 
-    public void setAuthorizedBy(CuratorDTO authorizedBy) {
-        this.authorizedBy = authorizedBy;
+    public void setAuthorizedById(Integer authorizedById) {
+        this.authorizedById = authorizedById;
     }
 }

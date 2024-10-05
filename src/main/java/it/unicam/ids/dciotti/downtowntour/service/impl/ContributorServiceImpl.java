@@ -45,7 +45,7 @@ public class ContributorServiceImpl implements ContributorService {
     @Override
     public List<ContributorDTO> retrieveAllContributors() {
         List<ContributorEntity> contributorEntities = contributorRepository.findAll();
-        return contributorMapper.dto(contributorMapper.modelFromEntity(contributorEntities));
+        return contributorMapper.dto(contributorEntities);
     }
 
     @Override

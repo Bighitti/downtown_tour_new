@@ -11,7 +11,7 @@ import java.util.List;
 public interface ContentController {
 
     @PostMapping
-    ResponseEntity<Void> createContent(
+    ResponseEntity<ContentDTO> createContent(
             @RequestBody ContentDTO contentDTO);
 
     @GetMapping(path = "/{id}")

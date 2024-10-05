@@ -4,6 +4,8 @@ import it.unicam.ids.dciotti.downtowntour.controller.ContentController;
 import it.unicam.ids.dciotti.downtowntour.dto.ContentDTO;
 import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
 import it.unicam.ids.dciotti.downtowntour.entity.ContributorEntity;
+import it.unicam.ids.dciotti.downtowntour.exception.ContributorNotFoundException;
+import it.unicam.ids.dciotti.downtowntour.exception.InsertFailException;
 import it.unicam.ids.dciotti.downtowntour.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,11 +31,17 @@ public class ContentControllerImpl implements ContentController {
     }
 
     @Override
-    public ResponseEntity<Void> createContent(ContentDTO contentDTO) {
-        contentService.createContent(contentDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<ContentDTO> createContent(ContentDTO contentDTO) {
+        ContentDTO output;
+        try {
+            output = contentService.createContent(contentDTO);
+        } catch (ContributorNotFoundException ex) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (InsertFailException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(output, HttpStatus.CREATED);
     }
-
 
     @Override
     @GetMapping(path = "/{id}")

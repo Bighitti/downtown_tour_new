@@ -7,9 +7,11 @@ import it.unicam.ids.dciotti.downtowntour.model.Contributor;
 import it.unicam.ids.dciotti.downtowntour.model.Curator;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class ContributorMapper implements DefaultMapper<ContributorDTO, Contributor, ContributorEntity> {
-    @Override
+public class ContributorMapper {
     public ContributorDTO dto(Contributor model) {
         if (model == null) return null;
         ContributorDTO contributorDTO = new ContributorDTO();
@@ -27,7 +29,6 @@ public class ContributorMapper implements DefaultMapper<ContributorDTO, Contribu
         return contributorDTO;
     }
 
-    @Override
     public Contributor modelFromDto(ContributorDTO dto) {
         if (dto == null) return null;
         Contributor contributor = new Contributor();
@@ -41,7 +42,6 @@ public class ContributorMapper implements DefaultMapper<ContributorDTO, Contribu
         return contributor;
     }
 
-    @Override
     public Contributor modelFromEntity(ContributorEntity entity) {
         if (entity == null) return null;
         Contributor contributor = entity.getAuthorizedBy() == entity ? new Curator() : new Contributor();
@@ -60,7 +60,6 @@ public class ContributorMapper implements DefaultMapper<ContributorDTO, Contribu
         return contributor;
     }
 
-    @Override
     public ContributorEntity entity(Contributor model) {
         if (model == null) return null;
         ContributorEntity contributorEntity = new ContributorEntity();
@@ -82,6 +81,20 @@ public class ContributorMapper implements DefaultMapper<ContributorDTO, Contribu
     }
 
     public ContributorDTO dto(ContributorEntity entity) {
-        return dto(modelFromEntity(entity));
+        ContributorDTO contributorDTO = dto(modelFromEntity(entity));
+        contributorDTO.setId(entity.getId());
+        return contributorDTO;
+    }
+
+    public List<ContributorDTO> dto(List<ContributorEntity> contributorEntities) {
+        if(contributorEntities != null) {
+            List<ContributorDTO> output = new ArrayList<>();
+            for (int i = 0; i < contributorEntities.size(); i++) {
+                output.add(dto(contributorEntities.get(i)));
+            }
+            return output;
+        } else {
+            return null;
+        }
     }
 }
