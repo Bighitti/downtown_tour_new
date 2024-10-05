@@ -10,7 +10,7 @@ public class ContributorDTO {
     private String phone;
     private String address;
     private String fiscalCode;
-    private String authorizedBy;
+    private CuratorDTO authorizedBy;
 
     public String getFirstname() {
         return firstname;
@@ -68,11 +68,11 @@ public class ContributorDTO {
         this.fiscalCode = fiscalCode;
     }
 
-    public String getAuthorizedBy() {
+    public CuratorDTO getAuthorizedBy() {
         return authorizedBy;
     }
 
-    public void setAuthorizedBy(String authorizedBy) {
+    public void setAuthorizedBy(CuratorDTO authorizedBy) {
         this.authorizedBy = authorizedBy;
     }
 }

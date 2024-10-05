@@ -1,27 +1,28 @@
 package it.unicam.ids.dciotti.downtowntour.mapper;
 
 import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
+import it.unicam.ids.dciotti.downtowntour.dto.CuratorDTO;
 import it.unicam.ids.dciotti.downtowntour.entity.ContributorEntity;
 import it.unicam.ids.dciotti.downtowntour.model.Contributor;
-import org.springframework.beans.factory.annotation.Autowired;
+import it.unicam.ids.dciotti.downtowntour.model.Curator;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ContributorMapper implements DefaultMapper<ContributorDTO, Contributor, ContributorEntity> {
-    private final CuratorMapper curatorMapper;
-
-    @Autowired
-    public ContributorMapper(CuratorMapper curatorMapper) {
-        this.curatorMapper = curatorMapper;
-    }
-
     @Override
     public ContributorDTO dto(Contributor model) {
         if (model == null) return null;
         ContributorDTO contributorDTO = new ContributorDTO();
         //TODO: fare tutti i set necessari - guardare esempio riga 23-29
+        contributorDTO.setFirstname(model.getFirstname());
+        contributorDTO.setLastname(model.getLastname());
+        contributorDTO.setBirthday(model.getBirthday());
+        contributorDTO.setEmail(model.getEmail());
+        contributorDTO.setPhone(model.getPhone());
+        contributorDTO.setAddress(model.getAddress());
+        contributorDTO.setFiscalCode(model.getFiscalCode());
         try {
-            contributorDTO.setAuthorizedBy(model.getAuthorizedBy().getFiscalCode());
+            contributorDTO.setAuthorizedBy((CuratorDTO) dto(model.getAuthorizedBy()));
         } catch (NullPointerException ignore) {}
         return contributorDTO;
     }
@@ -43,10 +44,19 @@ public class ContributorMapper implements DefaultMapper<ContributorDTO, Contribu
     @Override
     public Contributor modelFromEntity(ContributorEntity entity) {
         if (entity == null) return null;
-        if (entity.getCurator()) return curatorMapper.modelFromEntity(entity);
-        Contributor contributor = new Contributor();
-        //TODO: fare tutti i set necessari - guardare esempio riga 23-29
-        contributor.setAuthorizedBy(curatorMapper.modelFromEntity(entity.getAuthorizedBy()));
+        Contributor contributor = entity.getAuthorizedBy() == entity ? new Curator() : new Contributor();
+        //if (entity.getCurator()) return curatorMapper.modelFromEntity(entity);
+        //Contributor contributor = new Contributor();
+        contributor.setFirstname(entity.getFirstname());
+        contributor.setLastname(entity.getLastname());
+        contributor.setBirthday(entity.getBirthday());
+        contributor.setEmail(entity.getEmail());
+        contributor.setPhone(entity.getPhone());
+        contributor.setAddress(entity.getAddress());
+        contributor.setFiscalCode(entity.getFiscalCode());
+        if (!(contributor instanceof Curator) && entity.getAuthorizedBy() != null) {
+            contributor.setAuthorizedBy((Curator) modelFromEntity(entity.getAuthorizedBy()));
+        }
         return contributor;
     }
 
@@ -54,8 +64,24 @@ public class ContributorMapper implements DefaultMapper<ContributorDTO, Contribu
     public ContributorEntity entity(Contributor model) {
         if (model == null) return null;
         ContributorEntity contributorEntity = new ContributorEntity();
-        //TODO: fare tutti i set necessari - guardare esempio riga 23-29
-        contributorEntity.setAuthorizedBy(curatorMapper.entity(model.getAuthorizedBy()));
+        contributorEntity.setFirstname(model.getFirstname());
+        contributorEntity.setLastname(model.getLastname());
+        contributorEntity.setBirthday(new java.sql.Date(model.getBirthday().getTime()));
+        contributorEntity.setEmail(model.getEmail());
+        contributorEntity.setPhone(model.getPhone());
+        contributorEntity.setAddress(model.getAddress());
+        contributorEntity.setFiscalCode(model.getFiscalCode());
+        if (!(model instanceof Curator)) {
+            if (model.getAuthorizedBy() != null) {
+                contributorEntity.setAuthorizedBy(entity(model.getAuthorizedBy()));
+            }
+        } else {
+            contributorEntity.setAuthorizedBy(contributorEntity);
+        }
         return contributorEntity;
+    }
+
+    public ContributorDTO dto(ContributorEntity entity) {
+        return dto(modelFromEntity(entity));
     }
 }

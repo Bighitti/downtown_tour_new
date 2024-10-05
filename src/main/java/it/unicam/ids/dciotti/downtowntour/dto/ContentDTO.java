@@ -5,8 +5,8 @@ import java.util.Date;
 public class ContentDTO {
     private String text;
     private Date publication = new Date();
-    private String contributorFiscalCode;
-    private String authorizedByCuratorFiscalCode;
+    private ContributorDTO contributor;
+    private CuratorDTO authorizedBy;
 
     public String getText() {
         return text;
@@ -24,19 +24,19 @@ public class ContentDTO {
         this.publication = publication;
     }
 
-    public String getContributorFiscalCode() {
-        return contributorFiscalCode;
+    public ContributorDTO getContributor() {
+        return contributor;
     }
 
-    public void setContributorFiscalCode(String contributorFiscalCode) {
-        this.contributorFiscalCode = contributorFiscalCode;
+    public void setContributor(ContributorDTO contributor) {
+        this.contributor = contributor;
     }
 
-    public String getAuthorizedByCuratorFiscalCode() {
-        return authorizedByCuratorFiscalCode;
+    public CuratorDTO getAuthorizedByCuratorFiscalCode() {
+        return authorizedBy;
     }
 
-    public void setAuthorizedByCuratorFiscalCode(String authorizedByCuratorFiscalCode) {
-        this.authorizedByCuratorFiscalCode = authorizedByCuratorFiscalCode;
+    public void setAuthorizedBy(CuratorDTO authorizedBy) {
+        this.authorizedBy = authorizedBy;
     }
 }
