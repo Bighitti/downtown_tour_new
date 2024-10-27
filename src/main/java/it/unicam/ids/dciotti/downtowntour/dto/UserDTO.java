@@ -1,46 +1,19 @@
-package it.unicam.ids.dciotti.downtowntour.entity;
+package it.unicam.ids.dciotti.downtowntour.dto;
 
-import jakarta.persistence.*;
+import java.util.Date;
 
-import java.sql.Date;
-
-@Entity
-@Table(
-        name = "contributor",
-        schema = "downtown_tour",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "CONTRIBUTOR_UNIQUE_TAX", columnNames = { "fiscalCode" }),
-                @UniqueConstraint(name = "CONTRIBUTOR_UNIQUE_EMAIL", columnNames = { "email" })
-        }
-)
-public class ContributorEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class UserDTO {
     private Integer id;
-    @Column(name = "firstname", length = 64, nullable = false)
     private String firstname;
-    @Column(name = "lastname", length = 64, nullable = false)
     private String lastname;
-    @Column(name = "birthday", nullable = false)
     private Date birthday;
-    @Column(name = "email", length = 320, nullable = false)
     private String email;
-    @Column(name = "password", length = 255, nullable = true)
     private String password;
-    @Column(name = "phone", length = 25, nullable = true)
     private String phone;
-    @Column(name = "address", length = 255, nullable = true)
     private String address;
-    @Column(name = "fiscal_code", length = 16, nullable = false)
     private String fiscalCode;
-    @Column(name = "privilege", length = 50, nullable = true)
     private String privilegesCSV;
-    @Column(name = "curator", nullable = false)
-    private Boolean curator = false;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "authorized_by", nullable = true)
-    private ContributorEntity authorizedBy;
+    private CuratorDTO authorizedBy;
 
     public Integer getId() {
         return id;
@@ -122,19 +95,11 @@ public class ContributorEntity {
         this.privilegesCSV = privilegesCSV;
     }
 
-    public Boolean getCurator() {
-        return curator;
-    }
-
-    public void setCurator(Boolean curator) {
-        this.curator = curator;
-    }
-
-    public ContributorEntity getAuthorizedBy() {
+    public CuratorDTO getAuthorizedBy() {
         return authorizedBy;
     }
 
-    public void setAuthorizedBy(ContributorEntity authorizedBy) {
+    public void setAuthorizedBy(CuratorDTO authorizedBy) {
         this.authorizedBy = authorizedBy;
     }
 }
