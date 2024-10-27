@@ -9,7 +9,6 @@ import java.util.List;
 
 @RequestMapping(path = "/content")
 public interface ContentController {
-
     @PostMapping
     ResponseEntity<ContentDTO> createContent(
             @RequestBody ContentDTO contentDTO);
@@ -17,9 +16,11 @@ public interface ContentController {
     @GetMapping(path = "/{id}")
     ResponseEntity<ContentDTO> retrieveContent(
             @PathVariable(name = "id") Integer id);
+
     @GetMapping(path = "/{creatorId}")
     ResponseEntity<ContentDTO> retrieveContentByCreator(
             @PathVariable(name = "creatorId") Integer creatorId);
+
     @GetMapping(path = "/{curatorId}")
     ResponseEntity<ContentDTO> retrieveContentByCurator(
             @PathVariable(name = "curatorId") Integer curatorId);

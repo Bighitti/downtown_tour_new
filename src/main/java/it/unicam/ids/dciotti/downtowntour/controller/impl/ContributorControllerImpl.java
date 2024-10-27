@@ -2,7 +2,6 @@ package it.unicam.ids.dciotti.downtowntour.controller.impl;
 
 import it.unicam.ids.dciotti.downtowntour.controller.ContributorController;
 import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
-import it.unicam.ids.dciotti.downtowntour.model.User;
 import it.unicam.ids.dciotti.downtowntour.service.ContributorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
