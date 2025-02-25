@@ -1,7 +1,7 @@
 package it.unicam.ids.dciotti.downtowntour.controller;
 
 import it.unicam.ids.dciotti.downtowntour.dto.ContentDTO;
-import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
+import it.unicam.ids.dciotti.downtowntour.dto.LoginDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,31 +9,43 @@ import java.util.List;
 
 @RequestMapping(path = "/content")
 public interface ContentController {
-    @PostMapping
+    @PostMapping(path = "/contributor/{contributorId}")
     ResponseEntity<ContentDTO> createContent(
+            @PathVariable Integer contributorId,
             @RequestBody ContentDTO contentDTO);
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/id/{contentId}")
     ResponseEntity<ContentDTO> retrieveContent(
-            @PathVariable(name = "id") Integer id);
+            @PathVariable Integer contentId);
 
-    @GetMapping(path = "/{creatorId}")
-    ResponseEntity<ContentDTO> retrieveContentByCreator(
-            @PathVariable(name = "creatorId") Integer creatorId);
+    @GetMapping(path = "/unauth")
+    ResponseEntity<List<ContentDTO>> retrieveContentUnauthorized();
 
-    @GetMapping(path = "/{curatorId}")
-    ResponseEntity<ContentDTO> retrieveContentByCurator(
-            @PathVariable(name = "curatorId") Integer curatorId);
+    @GetMapping(path = "/createdby/{contributorId}")
+    ResponseEntity<List<ContentDTO>> retrieveContentByContributor(
+            @PathVariable Integer contributorId);
+
+    @GetMapping(path = "/authorizedby/{curatorId}")
+    ResponseEntity<List<ContentDTO>> retrieveContentAuthorizedByCurator(
+            @PathVariable Integer curatorId);
+
+    @GetMapping(path = "/reported")
+    ResponseEntity<List<ContentDTO>> retrieveReportedContent();
 
     @GetMapping(path = "/all")
     ResponseEntity<List<ContentDTO>> retrieveAllContents();
 
-    @PutMapping(path = "/{id}")
-    ResponseEntity<ContentDTO> updateContent(
-            @PathVariable(name = "id") Integer id,
-            @RequestBody ContributorDTO contributorDTO);
+    @PatchMapping(path = "/authorize/{contentId}")
+    ResponseEntity<Void> authorize(
+            @PathVariable Integer contentId,
+            @RequestBody LoginDTO curatorLoginDTO);
 
-    @DeleteMapping(path = "/delete/{id}")
+    @PatchMapping(path = "/report/{contentId}")
+    ResponseEntity<Void> report(
+            @PathVariable Integer contentId,
+            @RequestBody LoginDTO loginDTO);
+
+    @DeleteMapping(path = "/{contentId}")
     boolean deleteContent(
-            @PathVariable(name = "id") Integer id);
+            @PathVariable Integer contentId);
 }

@@ -4,12 +4,12 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Report {
-    private final Tourist tourist;
+    private final TouristAuth tourist;
     private final Content content;
     private boolean solved = false;
     private final Date timestamp = new Date();
 
-    public Report(Tourist tourist, Content content) {
+    public Report(TouristAuth tourist, Content content) {
         this.tourist = tourist;
         this.content = content;
         content.getReportToBeSolved().add(this);

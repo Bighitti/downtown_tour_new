@@ -1,17 +1,19 @@
 package it.unicam.ids.dciotti.downtowntour.service;
 
 import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
+import it.unicam.ids.dciotti.downtowntour.dto.LoginDTO;
+import it.unicam.ids.dciotti.downtowntour.exception.*;
 
 import java.util.List;
 
 public interface ContributorService {
-    ContributorDTO createContributor(ContributorDTO contributorDTO);
+    ContributorDTO createContributor(ContributorDTO contributorDTO) throws UserDataRequiredException;
 
-    ContributorDTO retrieveContributor(Integer id);
+    ContributorDTO retrieveContributor(Integer contributorId);
 
     List<ContributorDTO> retrieveAllContributors();
 
-    void deleteContributor(Integer id);
+    ContributorDTO authorizeContributorByCurator(Integer contributorId, LoginDTO loginDTO) throws ContributorNotFoundException, CuratorNotFoundException, CuratorRequiresNoAuthorizationException;
 
-    ContributorDTO updateContributor(Integer id, ContributorDTO contributorDTO);
+    void deleteContributor(Integer contributorId) throws ContentExistsException, ContributorNotFoundException;
 }

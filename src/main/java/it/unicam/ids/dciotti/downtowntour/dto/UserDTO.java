@@ -13,7 +13,6 @@ public class UserDTO {
     private String address;
     private String fiscalCode;
     private String privilegesCSV;
-    private CuratorDTO authorizedBy;
 
     public Integer getId() {
         return id;
@@ -93,13 +92,5 @@ public class UserDTO {
 
     public void setPrivilegesCSV(String privilegesCSV) {
         this.privilegesCSV = privilegesCSV;
-    }
-
-    public CuratorDTO getAuthorizedBy() {
-        return authorizedBy;
-    }
-
-    public void setAuthorizedBy(CuratorDTO authorizedBy) {
-        this.authorizedBy = authorizedBy;
     }
 }

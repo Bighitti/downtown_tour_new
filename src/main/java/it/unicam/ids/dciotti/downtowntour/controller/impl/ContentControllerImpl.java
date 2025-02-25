@@ -2,62 +2,68 @@ package it.unicam.ids.dciotti.downtowntour.controller.impl;
 
 import it.unicam.ids.dciotti.downtowntour.controller.ContentController;
 import it.unicam.ids.dciotti.downtowntour.dto.ContentDTO;
-import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
-import it.unicam.ids.dciotti.downtowntour.entity.ContributorEntity;
-import it.unicam.ids.dciotti.downtowntour.exception.ContributorNotFoundException;
-import it.unicam.ids.dciotti.downtowntour.exception.InsertFailException;
+import it.unicam.ids.dciotti.downtowntour.dto.LoginDTO;
+import it.unicam.ids.dciotti.downtowntour.exception.*;
+import it.unicam.ids.dciotti.downtowntour.repository.ContentRepository;
 import it.unicam.ids.dciotti.downtowntour.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import it.unicam.ids.dciotti.downtowntour.repository.ContributorRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ContentControllerImpl implements ContentController {
     private final ContentService contentService;
-    private final ContributorRepository repository;
+    private final ContentRepository contentRepository;
 
     @Autowired
     public ContentControllerImpl(
             ContentService contentService,
-            ContributorRepository repository) {
+            ContentRepository contentRepository) {
         this.contentService = contentService;
-        this.repository = repository;
+        this.contentRepository = contentRepository;
     }
 
     @Override
-    public ResponseEntity<ContentDTO> createContent(ContentDTO contentDTO) {
-        ContentDTO output;
+    public ResponseEntity<ContentDTO> createContent(Integer contributorId, ContentDTO contentDTO) {
         try {
-            output = contentService.createContent(contentDTO);
+            ContentDTO dto = contentService.createContent(contributorId, contentDTO);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
         } catch (ContributorNotFoundException ex) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (InsertFailException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(output, HttpStatus.CREATED);
     }
 
     @Override
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ContentDTO> retrieveContent(Integer id) {
-        ContentDTO dto = contentService.retrieveContent(id);
-        return new ResponseEntity<>(dto , HttpStatus.OK);
+    public ResponseEntity<ContentDTO> retrieveContent(Integer contentId) {
+        ContentDTO dto = contentService.retrieveContent(contentId);
+        return new ResponseEntity<>(dto, dto == null ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<ContentDTO> retrieveContentByCreator(Integer creatorId) {
-        return null;
+    public ResponseEntity<List<ContentDTO>> retrieveContentUnauthorized() {
+        List<ContentDTO> dto = contentService.retrieveContentUnauthorized();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<ContentDTO> retrieveContentByCurator(Integer curatorId) {
-        return null;
+    public ResponseEntity<List<ContentDTO>> retrieveContentByContributor(Integer contributorId) {
+        List<ContentDTO> dto = contentService.retrieveContentByContributor(contributorId);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<ContentDTO>> retrieveContentAuthorizedByCurator(Integer curatorId) {
+        List<ContentDTO> dto = contentService.retrieveContentAuthorizedByCurator(curatorId);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<ContentDTO>> retrieveReportedContent() {
+        List<ContentDTO> dtos = contentService.retrieveReportedContent();
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     @Override
@@ -67,21 +73,35 @@ public class ContentControllerImpl implements ContentController {
     }
 
     @Override
-    public ResponseEntity<ContentDTO> updateContent(Integer id, ContributorDTO contributorDTO) {
-        return null;
+    public ResponseEntity<Void> authorize(Integer contentId, LoginDTO curatorLoginDTO) {
+        try {
+            contentService.authorize(contentId, curatorLoginDTO);
+        } catch (ContentNotFoundException | CuratorNotFoundException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Void> report(Integer contentId, LoginDTO loginDTO) {
+        try {
+            contentService.report(contentId, loginDTO);
+        } catch (ContentNotFoundException | UserNotFoundException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @Override
-    public boolean deleteContent(Integer id) {
-        this.contentService.deleteContent(id);
-
-        Optional<ContributorEntity> contentFromMysql = this.repository.findById(id);
-        boolean result;
-        if(contentFromMysql.isPresent()) {
-            result = false;
+    public boolean deleteContent(Integer contentId) {
+        if (!contentRepository.existsById(contentId)) return false;
+        try {
+            contentService.deleteContent(contentId);
+        } catch (Exception ignore) {
+            return false;
         }
-        else result = true;
-        return result;
+        return true;
     }
 }

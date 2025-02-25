@@ -1,13 +1,15 @@
 package it.unicam.ids.dciotti.downtowntour.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ContentDTO {
     private Integer id;
     private String text;
+    private Integer challengeId;
     private Date publication = new Date();
-    private Integer contributorId;
-    private Integer authorizedById;
+    private List<Integer> reports = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -25,6 +27,14 @@ public class ContentDTO {
         this.text = text;
     }
 
+    public Integer getChallengeId() {
+        return challengeId;
+    }
+
+    public void setChallengeId(Integer challengeId) {
+        this.challengeId = challengeId;
+    }
+
     public Date getPublication() {
         return publication;
     }
@@ -33,19 +43,7 @@ public class ContentDTO {
         this.publication = publication;
     }
 
-    public Integer getContributorId() {
-        return contributorId;
-    }
-
-    public void setContributorId(Integer contributorId) {
-        this.contributorId = contributorId;
-    }
-
-    public Integer getAuthorizedById() {
-        return authorizedById;
-    }
-
-    public void setAuthorizedById(Integer authorizedById) {
-        this.authorizedById = authorizedById;
+    public List<Integer> getReports() {
+        return reports;
     }
 }

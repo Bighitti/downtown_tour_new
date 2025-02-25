@@ -2,6 +2,8 @@ package it.unicam.ids.dciotti.downtowntour.controller.impl;
 
 import it.unicam.ids.dciotti.downtowntour.controller.ContributorController;
 import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
+import it.unicam.ids.dciotti.downtowntour.dto.LoginDTO;
+import it.unicam.ids.dciotti.downtowntour.exception.*;
 import it.unicam.ids.dciotti.downtowntour.service.ContributorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,38 +22,47 @@ public class ContributorControllerImpl implements ContributorController {
     }
 
     @Override
-    @PostMapping
     public ResponseEntity<ContributorDTO> createContributor(ContributorDTO contributorDTO) {
-        ContributorDTO dtoSaved = contributorService.createContributor(contributorDTO);
-        return new ResponseEntity<>(dtoSaved, HttpStatus.CREATED);
+        try {
+            ContributorDTO dto = contributorService.createContributor(contributorDTO);
+            return new ResponseEntity<>(dto, HttpStatus.CREATED);
+        } catch (UserDataRequiredException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Override
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<ContributorDTO> retrieveContributor(Integer id) {
-        ContributorDTO dto = contributorService.retrieveContributor(id);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    public ResponseEntity<ContributorDTO> retrieveContributor(Integer contributorId) {
+        ContributorDTO dto = contributorService.retrieveContributor(contributorId);
+        return new ResponseEntity<>(dto, dto == null ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
     }
 
     @Override
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<ContributorDTO> updateContributor(Integer id, @RequestBody ContributorDTO contributorDTO) {
-        ContributorDTO dto = contributorService.updateContributor(id, contributorDTO);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    @Override
-    @GetMapping(path = "/all")
     public ResponseEntity<List<ContributorDTO>> retrieveAllContributors() {
         List<ContributorDTO> dtos = contributorService.retrieveAllContributors();
         return new ResponseEntity<>(dtos, HttpStatus.OK);
-
     }
 
     @Override
-    @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<Void> deleteContributor(Integer id) {
-        contributorService.deleteContributor(id);
+    public ResponseEntity<ContributorDTO> authorizeContributorByCurator(Integer contributorId, LoginDTO loginDTO) {
+        try {
+            ContributorDTO dto = contributorService.authorizeContributorByCurator(contributorId, loginDTO);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (ContributorNotFoundException | CuratorNotFoundException | CuratorRequiresNoAuthorizationException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Void> deleteContributor(Integer contributorId) {
+        try {
+            contributorService.deleteContributor(contributorId);
+        } catch (ContentExistsException | ContributorNotFoundException ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

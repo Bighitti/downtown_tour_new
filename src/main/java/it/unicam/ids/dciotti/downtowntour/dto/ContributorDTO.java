@@ -1,17 +1,9 @@
 package it.unicam.ids.dciotti.downtowntour.dto;
 
-import java.util.Date;
-
 public class ContributorDTO {
     private Integer id;
-    private String firstname;
-    private String lastname;
-    private Date birthday;
-    private String email;
-    private String phone;
-    private String address;
-    private String fiscalCode;
-    private CuratorDTO authorizedBy;
+    private UserDTO user;
+    private CuratorDTO curator;
 
     public Integer getId() {
         return id;
@@ -21,67 +13,23 @@ public class ContributorDTO {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
-    public String getLastname() {
-        return lastname;
+    public CuratorDTO getCurator() {
+        return curator;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setCurator(CuratorDTO curator) {
+        this.curator = curator;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getFiscalCode() {
-        return fiscalCode;
-    }
-
-    public void setFiscalCode(String fiscalCode) {
-        this.fiscalCode = fiscalCode;
-    }
-
-    public CuratorDTO getAuthorizedBy() {
-        return authorizedBy;
-    }
-
-    public void setAuthorizedBy(CuratorDTO authorizedBy) {
-        this.authorizedBy = authorizedBy;
+    public boolean curator() {
+        return false;
     }
 }

@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(
-        name = "content",
+        name = "contents",
         schema = "downtown_tour"
 )
 public class ContentEntity {
@@ -16,14 +16,14 @@ public class ContentEntity {
     private Integer id;
     @Column(name = "text", length = 512, nullable = false)
     private String text;
+    @Column(name = "challenge_id", nullable = true)
+    private Integer idChallenge;
     @Column(name = "publication", nullable = false)
     private Timestamp publication;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "contributor_id", nullable = false)
-    private ContributorEntity contributor;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "authorized_id", nullable = true)
-    private ContributorEntity authorizedBy;
+    @Column(name = "contributor_id", nullable = false)
+    private Integer idContributor;
+    @Column(name = "curator_id", nullable = true)
+    private Integer idCurator;
 
     public Integer getId() {
         return id;
@@ -41,6 +41,14 @@ public class ContentEntity {
         this.text = text;
     }
 
+    public Integer getIdChallenge() {
+        return idChallenge;
+    }
+
+    public void setIdChallenge(Integer idChallenge) {
+        this.idChallenge = idChallenge;
+    }
+
     public Timestamp getPublication() {
         return publication;
     }
@@ -49,19 +57,19 @@ public class ContentEntity {
         this.publication = publication;
     }
 
-    public ContributorEntity getContributor() {
-        return contributor;
+    public Integer getIdContributor() {
+        return idContributor;
     }
 
-    public void setContributor(ContributorEntity contributor) {
-        this.contributor = contributor;
+    public void setIdContributor(Integer idContributor) {
+        this.idContributor = idContributor;
     }
 
-    public ContributorEntity getAuthorizedBy() {
-        return authorizedBy;
+    public Integer getIdCurator() {
+        return idCurator;
     }
 
-    public void setAuthorizedBy(ContributorEntity authorizedBy) {
-        this.authorizedBy = authorizedBy;
+    public void setIdCurator(Integer idCurator) {
+        this.idCurator = idCurator;
     }
 }

@@ -1,6 +1,7 @@
 package it.unicam.ids.dciotti.downtowntour.controller;
 
 import it.unicam.ids.dciotti.downtowntour.dto.ContributorDTO;
+import it.unicam.ids.dciotti.downtowntour.dto.LoginDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,20 +15,21 @@ public interface ContributorController {
             @RequestBody ContributorDTO contributorDTO);
 
     // Metodo per ottenere i dati dal DB(Get)
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/id/{contributorId}")
     ResponseEntity<ContributorDTO> retrieveContributor(
-            @PathVariable Integer id);
-
-    @PutMapping(path = "/{id}")
-    ResponseEntity<ContributorDTO> updateContributor(
-            @PathVariable Integer id, @RequestBody ContributorDTO contributorDTO);
+            @PathVariable Integer contributorId);
 
     // Metodo per recuperare i dati dal dal DB
     @GetMapping(path = "/all")
     ResponseEntity<List<ContributorDTO>> retrieveAllContributors();
 
+    @PatchMapping(path = "/authorizebycurator/{contributorId}")
+    ResponseEntity<ContributorDTO> authorizeContributorByCurator(
+            @PathVariable Integer contributorId,
+            @RequestBody LoginDTO loginDTO);
+
     // Metodo per cancellare un record dal DB(Delete)
-    @DeleteMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/{contributorId}")
     ResponseEntity<Void> deleteContributor(
-            @PathVariable Integer id);
+            @PathVariable Integer contributorId);
 }
