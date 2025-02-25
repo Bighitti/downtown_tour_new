@@ -17,4 +17,4 @@ Funzionamento
    - `GET /api/users` - Recupera tutti gli utenti
    - `POST /api/users` - Crea un nuovo utente
    - `PUT /api/users/{id}` - Aggiorna un utente
-   - `DELETE /api/users/{id}` . Elimina un utente
+   - `DELETE /api/users/{id}` - Elimina un utente
