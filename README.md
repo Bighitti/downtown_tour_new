@@ -1,6 +1,5 @@
 Web API Project
 
-Descrizione del Progetto
 Questa applicazione è una Web API che si connette a un database MySQL.  
 Le chiamate API vengono testate tramite Postman.
 
